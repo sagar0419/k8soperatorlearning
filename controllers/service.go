@@ -6,4 +6,6 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func (r *LearningReconciler) ServiceForOperator(m *learningv1alpha1.Learning) *corev1.Service {}
+func (r *LearningReconciler) ServiceForOperator(m *learningv1alpha1.Learning) *corev1.Service {
+	return &corev1.Service{}
+}
