@@ -1,0 +1,26 @@
+apiVersion: learning.sagar/v1alpha1
+kind: Learning
+metadata:
+  labels:
+    app.kubernetes.io/name: learning
+    app.kubernetes.io/instance: learning-sample
+    app.kubernetes.io/part-of: k8soperatorlearning
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: k8soperatorlearning
+  name: learning-sample
+spec:
+  # TODO(user): Add fields here
+  databaseDescription: mysql-db
+  dbContainerName: mysql
+  dbImage: mysql:5.7
+  dbPort: 3306
+  dbStoragePath: /var/lib/mysql
+  dataStorageSize: 2Gi
+  dbSize: 1
+  service:
+    name: go-lang-svc
+    namespace: go
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
+    type: none

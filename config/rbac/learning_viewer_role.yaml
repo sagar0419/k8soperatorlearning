@@ -1,0 +1,27 @@
+# permissions for end users to view learnings.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: learning-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: k8soperatorlearning
+    app.kubernetes.io/part-of: k8soperatorlearning
+    app.kubernetes.io/managed-by: kustomize
+  name: learning-viewer-role
+rules:
+- apiGroups:
+  - learning.sagar
+  resources:
+  - learnings
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - learning.sagar
+  resources:
+  - learnings/status
+  verbs:
+  - get

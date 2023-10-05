@@ -1,0 +1,25 @@
+apiVersion: learning.sagar/v1alpha1
+kind: Learning
+metadata:
+  labels:
+    app.kubernetes.io/name: learning
+    app.kubernetes.io/instance: learning-sample
+    app.kubernetes.io/part-of: k8soperatorlearning
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: k8soperatorlearning
+  name: learning-sample
+spec:
+  # TODO(user): Add fields here
+  applicationDescription: go-lang
+  appContainerName: book
+  appImage: sagar27/petclinic-demo
+  appPort: 8080
+  appSize: 1
+  service:
+    name: go-lang-svc
+    namespace: go
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30003
+    type: NodePort
