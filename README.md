@@ -4,7 +4,7 @@
 
 ### Perquisite
 - GO installed
-- Kubebuilder installed
+- operator-sdk installed
 `make sure to install samem version of kubebuilder and GoLang`
 
 #### Create a directory, for our example we are creating k8sOperator.
