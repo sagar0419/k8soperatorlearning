@@ -4,8 +4,7 @@
 
 ### Perquisite
 - GO installed
-- operator-sdk installed
-`make sure to install samem version of kubebuilder and GoLang`
+- operator-sdk installed. `make sure to install samem version of operator-sdk and GoLang`
 
 #### Create a directory, for our example we are creating k8sOperator.
  - mkdir k8sOperator
@@ -13,7 +12,7 @@
 #### Initialise Go
  - go mod init k8sOperator
 
-#### Initialise kubebuilder
+#### Initialise operator-sdk
  - operator-sdk init --domain sagar --owner Sagar Parmar  `if you are creating the controller in the directory other then ~/go/src then please define repo path to you current working directory --repo github.com/sagar0419/k8sOperator`
  - operator-sdk create api --kind Learning --group learning --version v1alpha1
    
