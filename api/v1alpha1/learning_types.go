@@ -30,18 +30,19 @@ type LearningSpec struct {
 
 	// Foo is an example field of Learning. Edit learning_types.go to remove/update
 	// Foo string `json:"foo,omitempty"`
-	ApplicationDescription string `json:"applicationDescription"`
-	AppContainerName       string `json:"appContainerName"`
-	AppImage               string `json:"appImage"`
-	AppPort                int32  `json:"appPort"`
-	AppSize                int32  `json:"appSize"`
-	DatabaseDescription    string `json:"databaseDescription"`
-	DbContainerName        string `json:"dbContainerName"`
-	DbImage                string `json:"dbImage"`
-	DbPort                 int32  `json:"dbPort"`
-	DbStoragePath          string `json:"dbStoragePath"`
-	DataStorageSize        string `json:"dataStorageSize"`
-	DbSize                 int32  `json:"dbSize"`
+	ApplicationDescription string              `json:"applicationDescription"`
+	AppContainerName       string              `json:"appContainerName"`
+	AppImage               string              `json:"appImage"`
+	AppPort                int32               `json:"appPort"`
+	AppSize                int32               `json:"appSize"`
+	DatabaseDescription    string              `json:"databaseDescription"`
+	DbContainerName        string              `json:"dbContainerName"`
+	DbImage                string              `json:"dbImage"`
+	DbPort                 int32               `json:"dbPort"`
+	DbStoragePath          string              `json:"dbStoragePath"`
+	DataStorageSize        string              `json:"dataStorageSize"`
+	DbSize                 int32               `json:"dbSize"`
+	Service                LearningServiceSpec `json:"service"`
 }
 
 type LearningServiceSpec struct {
