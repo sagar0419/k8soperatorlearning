@@ -80,7 +80,7 @@ func (r *LearningReconciler) StsForOperator(m *learningv1alpha1.Learning) *appsv
 						StorageClassName: &m.Spec.StorageClassNameMysql,
 						Resources: v1.ResourceRequirements{
 							Requests: v1.ResourceList{
-								v1.ResourceStorage: *resource.NewQuantity(0, resource.BinarySI).FromString(m.Spec.DbVolumeSize),
+								v1.ResourceStorage: resource.MustParse(m.Spec.DbVolumeSize),
 							},
 						},
 					},
