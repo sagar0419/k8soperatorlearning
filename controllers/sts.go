@@ -42,16 +42,20 @@ func (r *LearningReconciler) StsForOperator(m *learningv1alpha1.Learning) *appsv
 							Image: m.Spec.DbImage,
 							Env: []v1.EnvVar{
 								{
-									Name:  m.Spec.MysqlUser,
-									Value: m.Spec.VMysqlUser,
+									Name:  m.Spec.Env.MysqlDb,
+									Value: m.Spec.Env.VMysqlDb,
 								},
 								{
-									Name:  m.Spec.MysqlPassword,
-									Value: m.Spec.VMysqlPassword,
+									Name:  m.Spec.Env.MysqlUser,
+									Value: m.Spec.Env.VMysqlUser,
 								},
 								{
-									Name:  m.Spec.MysqlRootPassword,
-									Value: m.Spec.VMysqlRootPassword,
+									Name:  m.Spec.Env.MysqlPassword,
+									Value: m.Spec.Env.VMysqlPassword,
+								},
+								{
+									Name:  m.Spec.Env.MysqlRootPassword,
+									Value: m.Spec.Env.VMysqlRootPassword,
 								},
 							},
 							Ports: []v1.ContainerPort{
