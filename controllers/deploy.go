@@ -11,15 +11,15 @@ import (
 
 func (r *LearningReconciler) DeploymentForOperator(l *learningv1alpha1.Learning) *appsv1.Deployment {
 	labl := map[string]string{
-		"app":    l.Name,
-		"labels": l.Name,
+		"app":    l.Spec.AppName,
+		"labels": l.Spec.AppName,
 	}
 
 	deploy := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      l.Name,
+			Name:      l.Spec.AppName,
 			Labels:    labl,
-			Namespace: l.Namespace,
+			Namespace: l.Spec.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: &l.Spec.AppSize,
