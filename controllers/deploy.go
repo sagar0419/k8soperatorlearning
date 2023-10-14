@@ -41,6 +41,24 @@ func (r *LearningReconciler) DeploymentForOperator(l *learningv1alpha1.Learning)
 									Name:          "http",
 								},
 							},
+							Env: []corev1.EnvVar{
+								{
+									Name:  l.Spec.Env.MysqlDb,
+									Value: l.Spec.Env.VMysqlDb,
+								},
+								{
+									Name:  l.Spec.Env.MysqlUser,
+									Value: l.Spec.Env.VMysqlUser,
+								},
+								{
+									Name:  l.Spec.Env.MysqlPassword,
+									Value: l.Spec.Env.VMysqlPassword,
+								},
+								{
+									Name:  l.Spec.Env.MysqlRootPassword,
+									Value: l.Spec.Env.VMysqlRootPassword,
+								},
+							},
 						},
 					},
 				},

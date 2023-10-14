@@ -45,18 +45,13 @@ type LearningSpec struct {
 	DataStorageSize        string              `json:"dataStorageSize"`
 	DbSize                 int32               `json:"dbSize"`
 	DbName                 string              `json:"dbName"`
-	Service                LearningServiceSpec `json:"service"`
-	MysqlUser              string              `json:"mysqlUser"`
-	MysqlPassword          string              `json:"mysqlPassword"`
-	MysqlRootPassword      string              `json:"mysqlRootPassword"`
-	VMysqlUser             string              `json:"vMysqlUser"`
-	VMysqlPassword         string              `json:"vMysqlPassword"`
-	VMysqlRootPassword     string              `json:"vMysqlRootPassword"`
 	DbVolumeName           string              `json:"dbVolumeName"`
 	DbVolumePath           string              `json:"dbVolumePath"`
 	DbVolumePvcName        string              `json:"dbVolumePvcName"`
 	DbVolumeSize           string              `json:"dbVolumeSize"`
 	StorageClassNameMysql  string              `json:"storageClassNameMysql"`
+	Service                LearningServiceSpec `json:"service"`
+	Env                    LearningDbEnvVar    `json:"env"`
 }
 
 type LearningServiceSpec struct {
@@ -67,6 +62,17 @@ type LearningServiceSpec struct {
 	TargetPort int    `json:"targetPort"`
 	NodePort   string `json:"nodePort,omitempty"`
 	Type       string `json:"type"`
+}
+
+type LearningDbEnvVar struct {
+	MysqlDb            string `json:"mysqlDb"`
+	MysqlUser          string `json:"mysqlUser"`
+	MysqlPassword      string `json:"mysqlPassword"`
+	MysqlRootPassword  string `json:"mysqlRootPassword"`
+	VMysqlDb           string `json:"vMysqlDb"`
+	VMysqlUser         string `json:"vMysqlUser"`
+	VMysqlPassword     string `json:"vMysqlPassword"`
+	VMysqlRootPassword string `json:"vMysqlRootPassword"`
 }
 
 // LearningStatus defines the observed state of Learning
