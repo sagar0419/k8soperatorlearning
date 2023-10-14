@@ -150,6 +150,24 @@ func (r *LearningReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 			return ctrl.Result{}, err
 		}
 	}
+
+	// Checking Statefulset
+	sts := &appsv1.StatefulSet{}
+	err = r.Get(ctx, types.NamespacedName{Namespace: lrnOperator.Namespace, Name: lrnOperator.Name}, sts)
+	if err != nil && errors.IsNotFound(err) {
+		stsDeploy := r.StsForOperator(lrnOperator)
+		log.Info("Creating New StatefulSet")
+		err = r.Create(ctx, stsDeploy)
+		if err != nil {
+			log.Error(err, "Failed to Create a StatefulSet", "StatefulSet.Namespace", sts.Namespace, "StatefulSet.Name", sts.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, err
+	} else if err != nil {
+		log.Error(err, "Failed to get the StatefulSet manifest")
+		return ctrl.Result{}, err
+	}
+
 	return ctrl.Result{}, nil
 }
 

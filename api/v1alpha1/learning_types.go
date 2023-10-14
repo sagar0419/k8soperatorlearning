@@ -43,6 +43,17 @@ type LearningSpec struct {
 	DataStorageSize        string              `json:"dataStorageSize"`
 	DbSize                 int32               `json:"dbSize"`
 	Service                LearningServiceSpec `json:"service"`
+	MysqlUser              string              `json:"mysqlUser"`
+	MysqlPassword          string              `json:"mysqlPassword"`
+	MysqlRootPassword      string              `json:"mysqlRootPassword"`
+	VMysqlUser             string              `json:"vMysqlUser"`
+	VMysqlPassword         string              `json:"vMysqlPassword"`
+	VMysqlRootPassword     string              `json:"vMysqlRootPassword"`
+	DbVolumeName           string              `json:"dbVolumeName"`
+	DbVolumePath           string              `json:"dbVolumePath"`
+	DbVolumePvcName        string              `json:"dbVolumePvcName"`
+	DbVolumeSize           string              `json:"dbVolumeSize"`
+	StorageClassNameMysql  string              `json:"storageClassNameMysql"`
 }
 
 type LearningServiceSpec struct {
