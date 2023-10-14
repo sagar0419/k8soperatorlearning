@@ -12,14 +12,16 @@ import (
 
 func (r *LearningReconciler) StsForOperator(m *learningv1alpha1.Learning) *appsv1.StatefulSet {
 	lbl := map[string]string{
-		"app":    m.Name,
-		"labels": m.Name,
+		"app":    m.Spec.DbName,
+		"labels": m.Spec.DbName,
 	}
+	// Converting termination grace period to int64
+	gracePeriodSeconds := int64(30)
 
 	sts := &appsv1.StatefulSet{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      m.Name,
-			Namespace: m.Namespace,
+			Name:      m.Spec.DbName,
+			Namespace: m.Spec.Namespace,
 			Labels:    lbl,
 		},
 		Spec: appsv1.StatefulSetSpec{
@@ -33,7 +35,7 @@ func (r *LearningReconciler) StsForOperator(m *learningv1alpha1.Learning) *appsv
 					Labels: lbl,
 				},
 				Spec: v1.PodSpec{
-					TerminationGracePeriodSeconds: 30,
+					TerminationGracePeriodSeconds: &gracePeriodSeconds,
 					Containers: []v1.Container{
 						{
 							Name:  m.Spec.DbContainerName,

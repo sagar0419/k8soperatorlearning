@@ -12,19 +12,20 @@ import (
 func (r *LearningReconciler) ServiceForOperator(m *learningv1alpha1.Learning) *corev1.Service {
 
 	lbl := map[string]string{
-		"app":    m.Name,
-		"labels": m.Name,
+		"app":    m.Spec.AppName,
+		"labels": m.Spec.AppName,
 	}
 
 	svc := &corev1.Service{
 		ObjectMeta: v1.ObjectMeta{
-			Name:      m.Name,
-			Namespace: m.Namespace,
+			Name:      m.Spec.AppName,
+			Namespace: m.Spec.Namespace,
 			Labels:    lbl,
 		},
 		Spec: corev1.ServiceSpec{
 			Selector: map[string]string{
-				"app": m.Name,
+				"app":    m.Spec.AppName,
+				"labels": m.Spec.AppName,
 			},
 			Ports: []corev1.ServicePort{
 				{
