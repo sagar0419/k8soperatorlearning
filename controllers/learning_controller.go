@@ -71,10 +71,13 @@ func (r *LearningReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	// checking deployment
 	found := &appsv1.Deployment{}
+	// fetching the Deployment specified by its name and namespace. If the Deployment is exist, it will be stored in the found
 	err = r.Get(ctx, types.NamespacedName{Name: lrnOperator.Name, Namespace: lrnOperator.Namespace}, found)
 	if err != nil && errors.IsNotFound(err) {
+		// creating a new Deployment resource based on information provided in the lrnOperator
 		deploy := r.DeploymentForOperator(lrnOperator)
 		log.Info("Creating new deployment")
+		// creating the new Deployment in the Kubernetes cluster
 		err = r.Create(ctx, deploy)
 		if err != nil {
 			log.Error(err, "Failed to create the deployment", "Deployment.Namespace", deploy.Namespace, "Deployment.Name", deploy.Name)
@@ -126,7 +129,7 @@ func (r *LearningReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		}
 		return ctrl.Result{Requeue: true}, nil
 	} else if err != nil {
-		log.Error(err, "Failed to update the pod list status")
+		log.Error(err, "failed to get service")
 		return ctrl.Result{}, err
 	}
 
@@ -168,6 +171,70 @@ func (r *LearningReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, err
 	}
 
+	// Updating STS template if statefulset already exist
+	stsTemp := r.StsForOperator(lrnOperator)
+	if !equality.Semantic.DeepDerivative(stsTemp.Spec.Template, sts.Spec.Template) {
+		sts = stsTemp
+		log.Info("Updating teh statefulset", "Statefulset.Namespace", sts.Namespace, "Statefulset.Name", sts.Name)
+		err = r.Update(ctx, sts)
+		if err != nil {
+			log.Error(err, "Failed to update the Statefulset", "Statefulset.Namespace", sts.Namespace, "Statefulset.Name", sts.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, nil
+	}
+
+	// Updating the Replica Count
+	dbSize := lrnOperator.Spec.DbReplica
+
+	if *sts.Spec.Replicas != dbSize {
+		sts.Spec.Replicas = &dbSize
+		err = r.Update(ctx, sts)
+		if err != nil {
+			log.Error(err, "Failed to update the Statefulset", "Statefulset.Namespace", sts.Namespace, "Statefulset.Name", sts.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, nil
+	}
+
+	// Checking and deploying service
+	stsSvc := &corev1.Service{}
+
+	err = r.Get(ctx, types.NamespacedName{Name: stsSvc.Name, Namespace: stsSvc.Namespace}, stsSvc)
+	if err != nil && errors.IsNotFound(err) {
+		depSvc := r.HeadLessSvc(lrnOperator)
+		log.Info("Creating Headless Service")
+		err = r.Create(ctx, depSvc)
+		if err != nil {
+			log.Error(err, "Failed to Get the service", "Service.Namespace", stsSvc.Namespace, "Service.Name", stsSvc.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, nil
+	} else if err != nil {
+		log.Error(err, "Failed to get headless service")
+		return ctrl.Result{}, err
+	}
+
+	// PodList
+	StsPodlist := &corev1.PodList{}
+	StsListOpts := []client.ListOption{
+		client.InNamespace(sts.Namespace),
+		client.MatchingLabels(map[string]string{"app": sts.Name, "labels": sts.Name}),
+	}
+	if r.List(ctx, StsPodlist, StsListOpts...); err != nil {
+		log.Error(err, "Failed to list statefulset pods", "Pod.Namespace", sts.Namespace, "Pod.Name", sts.Name)
+		return ctrl.Result{}, err
+	}
+
+	StsPodNames := GetPodNames(podlist.Items)
+	if !reflect.DeepEqual(StsPodNames, lrnOperator.Status.PodList) {
+		lrnOperator.Status.PodList = StsPodNames
+		err = r.Status().Update(ctx, lrnOperator)
+		if err != nil {
+			log.Error(err, "Failed to update the statefulset pod list status")
+			return ctrl.Result{}, err
+		}
+	}
 	return ctrl.Result{}, nil
 }
 
@@ -175,5 +242,8 @@ func (r *LearningReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 func (r *LearningReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&learningv1alpha1.Learning{}).
+		Owns(&appsv1.Deployment{}).
+		Owns(&corev1.Service{}).
+		Owns(&appsv1.StatefulSet{}).
 		Complete(r)
 }
