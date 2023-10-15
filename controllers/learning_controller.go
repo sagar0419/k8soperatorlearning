@@ -100,7 +100,7 @@ func (r *LearningReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	}
 
 	// updating the replicas of the pods
-	size := lrnOperator.Spec.AppSize
+	size := lrnOperator.Spec.AppReplica
 
 	if *found.Spec.Replicas != size {
 		found.Spec.Replicas = &size

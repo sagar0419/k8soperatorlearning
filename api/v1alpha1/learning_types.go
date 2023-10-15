@@ -36,14 +36,14 @@ type LearningSpec struct {
 	AppImage               string              `json:"appImage"`
 	AppName                string              `json:"appName"`
 	AppPort                int32               `json:"appPort"`
-	AppSize                int32               `json:"appSize"`
+	AppReplica             int32               `json:"appReplica"`
 	DatabaseDescription    string              `json:"databaseDescription"`
 	DbContainerName        string              `json:"dbContainerName"`
 	DbImage                string              `json:"dbImage"`
 	DbPort                 int32               `json:"dbPort"`
 	DbStoragePath          string              `json:"dbStoragePath"`
 	DataStorageSize        string              `json:"dataStorageSize"`
-	DbSize                 int32               `json:"dbSize"`
+	DbReplica              int32               `json:"dbReplica"`
 	DbName                 string              `json:"dbName"`
 	DbVolumeName           string              `json:"dbVolumeName"`
 	DbVolumePath           string              `json:"dbVolumePath"`

@@ -22,7 +22,7 @@ func (r *LearningReconciler) DeploymentForOperator(l *learningv1alpha1.Learning)
 			Namespace: l.Spec.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: &l.Spec.AppSize,
+			Replicas: &l.Spec.AppReplica,
 			Selector: &metav1.LabelSelector{
 				MatchLabels: labl,
 			},

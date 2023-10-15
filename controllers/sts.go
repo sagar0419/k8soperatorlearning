@@ -25,7 +25,7 @@ func (r *LearningReconciler) StsForOperator(m *learningv1alpha1.Learning) *appsv
 			Labels:    lbl,
 		},
 		Spec: appsv1.StatefulSetSpec{
-			Replicas: &m.Spec.DbSize,
+			Replicas: &m.Spec.DbReplica,
 			Selector: &metav1.LabelSelector{
 				MatchLabels: lbl,
 			},
