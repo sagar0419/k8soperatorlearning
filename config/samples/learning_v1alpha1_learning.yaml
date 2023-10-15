@@ -7,19 +7,29 @@ metadata:
     app.kubernetes.io/part-of: k8soperatorlearning
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/created-by: k8soperatorlearning
-  name: learning-sample
+  name: learning-sample-app
 spec:
   # TODO(user): Add fields here
-  applicationDescription: go-lang
-  appContainerName: book
-  appImage: sagar27/petclinic-demo
-  appPort: 8080
-  appSize: 1
+  appName: goLang
+  nameSpace: go
+  appContainerName: GoLangDemo
+  appImage: sagar27/golangdemo
+  appPort: 3000
+  appReplica: 1
+  mysqlDb: MYSQL_DATABASE
+  vMysqlDb: db
+  mysqlUser: MYSQL_USER
+  vMysqlUser: root
+  mysqlPassword: MYSQL_PASSWORD
+  vMysqlPassword: password
+  appDb: DBNAME
+  vAppDb: golangdb
+  dbHostName: HSTNAME
+  vDbHostName: golang-0-dbdbsvc.go.svc.cluster.local
   service:
-    name: go-lang-svc
+    name: gosvc
     namespace: go
     protocol: TCP
-    port: 8080
-    targetPort: 8080
-    nodePort: 30003
+    targetPort: 3000
+    nodePort: 30001
     type: NodePort

@@ -30,33 +30,28 @@ type LearningSpec struct {
 
 	// Foo is an example field of Learning. Edit learning_types.go to remove/update
 	// Foo string `json:"foo,omitempty"`
-	Namespace              string              `json:"nameSpace"`
-	ApplicationDescription string              `json:"applicationDescription"`
-	AppContainerName       string              `json:"appContainerName"`
-	AppImage               string              `json:"appImage"`
-	AppName                string              `json:"appName"`
-	AppPort                int32               `json:"appPort"`
-	AppReplica             int32               `json:"appReplica"`
-	DatabaseDescription    string              `json:"databaseDescription"`
-	DbContainerName        string              `json:"dbContainerName"`
-	DbImage                string              `json:"dbImage"`
-	DbPort                 int32               `json:"dbPort"`
-	DbStoragePath          string              `json:"dbStoragePath"`
-	DataStorageSize        string              `json:"dataStorageSize"`
-	DbReplica              int32               `json:"dbReplica"`
-	DbName                 string              `json:"dbName"`
-	DbVolumeName           string              `json:"dbVolumeName"`
-	DbVolumePath           string              `json:"dbVolumePath"`
-	DbVolumePvcName        string              `json:"dbVolumePvcName"`
-	DbVolumeSize           string              `json:"dbVolumeSize"`
-	StorageClassNameMysql  string              `json:"storageClassNameMysql"`
-	Service                LearningServiceSpec `json:"service"`
-	Env                    LearningDbEnvVar    `json:"env"`
+	Namespace             string              `json:"nameSpace"`
+	AppContainerName      string              `json:"appContainerName"`
+	AppImage              string              `json:"appImage"`
+	AppName               string              `json:"appName"`
+	AppPort               int32               `json:"appPort"`
+	AppReplica            int32               `json:"appReplica"`
+	DbContainerName       string              `json:"dbContainerName"`
+	DbImage               string              `json:"dbImage"`
+	DbPort                int32               `json:"dbPort"`
+	DbReplica             int32               `json:"dbReplica"`
+	DbName                string              `json:"dbName"`
+	DbVolumeName          string              `json:"dbVolumeName"`
+	DbVolumePath          string              `json:"dbVolumePath"`
+	DbVolumePvcName       string              `json:"dbVolumePvcName"`
+	DbVolumeSize          string              `json:"dbVolumeSize"`
+	StorageClassNameMysql string              `json:"storageClassNameMysql"`
+	Service               LearningServiceSpec `json:"service"`
+	Env                   LearningDbEnvVar    `json:"env"`
 }
 
 type LearningServiceSpec struct {
 	Name       string `json:"name"`
-	Namespace  string `json:"namespace"`
 	Protocol   string `json:"protocol"`
 	Port       int    `json:"port"`
 	TargetPort int    `json:"targetPort"`
@@ -65,7 +60,7 @@ type LearningServiceSpec struct {
 }
 
 type LearningDbEnvVar struct {
-	MysqlDb            string `json:"mysqlDb"`
+	MysqlDb            string `json:"mysqlDb"` // Old DB
 	MysqlUser          string `json:"mysqlUser"`
 	MysqlPassword      string `json:"mysqlPassword"`
 	MysqlRootPassword  string `json:"mysqlRootPassword"`
@@ -73,6 +68,10 @@ type LearningDbEnvVar struct {
 	VMysqlUser         string `json:"vMysqlUser"`
 	VMysqlPassword     string `json:"vMysqlPassword"`
 	VMysqlRootPassword string `json:"vMysqlRootPassword"`
+	AppDb              string `json:"appDb"` //DB that application will use.
+	VAppDb             string `json:"vAppDb"`
+	DbHostName         string `json:"dbHostName"`
+	VDbHostName        string `json:"vDbHostName"`
 }
 
 // LearningStatus defines the observed state of Learning

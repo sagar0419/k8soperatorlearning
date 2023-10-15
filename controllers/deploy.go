@@ -55,8 +55,12 @@ func (r *LearningReconciler) DeploymentForOperator(l *learningv1alpha1.Learning)
 									Value: l.Spec.Env.VMysqlPassword,
 								},
 								{
-									Name:  l.Spec.Env.MysqlRootPassword,
-									Value: l.Spec.Env.VMysqlRootPassword,
+									Name:  l.Spec.Env.AppDb,
+									Value: l.Spec.Env.VAppDb,
+								},
+								{
+									Name:  l.Spec.Env.DbHostName,
+									Value: l.Spec.Env.VDbHostName,
 								},
 							},
 						},
