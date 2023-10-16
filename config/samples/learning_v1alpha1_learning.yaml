@@ -7,29 +7,42 @@ metadata:
     app.kubernetes.io/part-of: k8soperatorlearning
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/created-by: k8soperatorlearning
-  name: learning-sample-app
+  name: learning-sample
 spec:
-  # TODO(user): Add fields here
-  appName: goLang
-  nameSpace: go
-  appContainerName: GoLangDemo
-  appImage: sagar27/golangdemo
-  appPort: 3000
-  appReplica: 1
-  mysqlDb: MYSQL_DATABASE
-  vMysqlDb: db
-  mysqlUser: MYSQL_USER
-  vMysqlUser: root
-  mysqlPassword: MYSQL_PASSWORD
-  vMysqlPassword: password
-  appDb: DBNAME
-  vAppDb: golangdb
-  dbHostName: HSTNAME
-  vDbHostName: golang-0-dbdbsvc.go.svc.cluster.local
-  service:
-    name: gosvc
+    appName: goLang
     namespace: go
-    protocol: TCP
-    targetPort: 3000
-    nodePort: 30001
-    type: NodePort
+    appContainerName: golangdemo
+    appImage: sagar27/golangdemo
+    appPort: 3000
+    appReplica: 1
+    dbName: godb
+    dbContainerName: mysql
+    dbImage: mysql:5.7
+    dbPort: 3306
+    dbVolumeName: mysql
+    dbVolumePath: /var/lib/mysql
+    dbVolumePvcName: mysql
+    dbVolumeSize: 1Gi
+    storageClassNameMysql: standard
+    dbReplica: 1
+    service:
+        name: dbdbsvc
+        protocol: TCP
+        port: 3306
+        targetPort: 3306
+        type: nodePort
+        nodePort: "30001"
+    env:
+      mysqlDb: MYSQL_DATABASE
+      vMysqlDb: db
+      mysqlUser: MYSQL_USER
+      vMysqlUser: root
+      mysqlPassword: MYSQL_PASSWORD
+      vMysqlPassword: password
+      mysqlRootPassword: MYSQL_ROOT_PASSWORD
+      vMysqlRootPassword: password
+      appDb: DBNAME
+      vAppDb: golangdb  
+      dbHostName: HSTNAME
+      vDbHostName: golang-0-dbdbsvc.go.svc.cluster.local
+      

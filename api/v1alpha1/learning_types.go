@@ -30,7 +30,7 @@ type LearningSpec struct {
 
 	// Foo is an example field of Learning. Edit learning_types.go to remove/update
 	// Foo string `json:"foo,omitempty"`
-	Namespace             string              `json:"nameSpace"`
+	Namespace             string              `json:"namespace"`
 	AppContainerName      string              `json:"appContainerName"`
 	AppImage              string              `json:"appImage"`
 	AppName               string              `json:"appName"`
@@ -56,7 +56,7 @@ type LearningServiceSpec struct {
 	Port       int    `json:"port"`
 	TargetPort int    `json:"targetPort"`
 	NodePort   string `json:"nodePort,omitempty"`
-	Type       string `json:"type"`
+	Type       string `json:"type,omitempty"`
 }
 
 type LearningDbEnvVar struct {

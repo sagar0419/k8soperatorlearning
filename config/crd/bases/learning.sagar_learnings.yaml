@@ -35,13 +35,136 @@ spec:
           spec:
             description: LearningSpec defines the desired state of Learning
             properties:
-              foo:
-                description: Foo is an example field of Learning. Edit learning_types.go
-                  to remove/update
+              appContainerName:
                 type: string
+              appImage:
+                type: string
+              appName:
+                type: string
+              appPort:
+                format: int32
+                type: integer
+              appReplica:
+                format: int32
+                type: integer
+              dbContainerName:
+                type: string
+              dbImage:
+                type: string
+              dbName:
+                type: string
+              dbPort:
+                format: int32
+                type: integer
+              dbReplica:
+                format: int32
+                type: integer
+              dbVolumeName:
+                type: string
+              dbVolumePath:
+                type: string
+              dbVolumePvcName:
+                type: string
+              dbVolumeSize:
+                type: string
+              env:
+                properties:
+                  appDb:
+                    type: string
+                  dbHostName:
+                    type: string
+                  mysqlDb:
+                    type: string
+                  mysqlPassword:
+                    type: string
+                  mysqlRootPassword:
+                    type: string
+                  mysqlUser:
+                    type: string
+                  vAppDb:
+                    type: string
+                  vDbHostName:
+                    type: string
+                  vMysqlDb:
+                    type: string
+                  vMysqlPassword:
+                    type: string
+                  vMysqlRootPassword:
+                    type: string
+                  vMysqlUser:
+                    type: string
+                required:
+                - appDb
+                - dbHostName
+                - mysqlDb
+                - mysqlPassword
+                - mysqlRootPassword
+                - mysqlUser
+                - vAppDb
+                - vDbHostName
+                - vMysqlDb
+                - vMysqlPassword
+                - vMysqlRootPassword
+                - vMysqlUser
+                type: object
+              namespace:
+                description: Foo is an example field of Learning. Edit learning_types.go
+                  to remove/update Foo string `json:"foo,omitempty"`
+                type: string
+              service:
+                properties:
+                  name:
+                    type: string
+                  nodePort:
+                    type: string
+                  port:
+                    type: integer
+                  protocol:
+                    type: string
+                  targetPort:
+                    type: integer
+                  type:
+                    type: string
+                required:
+                - name
+                - port
+                - protocol
+                - targetPort
+                type: object
+              storageClassNameMysql:
+                type: string
+            required:
+            - appContainerName
+            - appImage
+            - appName
+            - appPort
+            - appReplica
+            - dbContainerName
+            - dbImage
+            - dbName
+            - dbPort
+            - dbReplica
+            - dbVolumeName
+            - dbVolumePath
+            - dbVolumePvcName
+            - dbVolumeSize
+            - env
+            - namespace
+            - service
+            - storageClassNameMysql
             type: object
           status:
             description: LearningStatus defines the observed state of Learning
+            properties:
+              podList:
+                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                  of cluster Important: Run "make" to regenerate code after modifying
+                  this file'
+                items:
+                  type: string
+                type: array
+            required:
+            - podList
             type: object
         type: object
     served: true
